@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dra. Andrea Solís — Psicóloga Clínica</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --sage:       #7A9E87;
+      --sage-light: #C8DDD0;
+      --sage-pale:  #EFF5F1;
+      --ink:        #1C2420;
+      --ink-soft:   #4A5550;
+      --warm:       #F7F4F0;
+      --white:      #FFFFFF;
+      --accent:     #B07D62;
+
+      --display: 'DM Serif Display', Georgia, serif;
+      --body:    'Inter', system-ui, sans-serif;
+
+      --radius: 12px;
+      --max-w:  1100px;
+    }
+
+    /* ── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--body);
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── UTILITIES ──────────────────────────────────────── */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 14px;
+    }
+
+    /* ── NAV ────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(247,244,240,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--sage-light);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 20px;
+      color: var(--ink);
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--ink-soft);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--sage); }
+    .nav-cta {
+      background: var(--sage);
+      color: var(--white) !important;
+      padding: 9px 20px;
+      border-radius: 100px;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      transition: background .2s, transform .15s !important;
+    }
+    .nav-cta:hover { background: var(--ink) !important; transform: translateY(-1px); }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: .3s; }
+    .mobile-menu { display: none; background: var(--warm); border-top: 1px solid var(--sage-light); }
+    .mobile-menu ul { list-style: none; padding: 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+    .mobile-menu a { font-size: 15px; font-weight: 500; color: var(--ink-soft); }
+    .mobile-menu.open { display: block; }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      background: var(--warm);
+      padding: 100px 0 80px;
+      overflow: hidden;
+    }
+    .hero-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+    }
+    .hero-eyebrow-line { width: 32px; height: 2px; background: var(--sage); }
+    .hero-eyebrow span { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); }
+
+    .hero h1 {
+      font-family: var(--display);
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+
+    .hero-sub {
+      font-size: 17px; line-height: 1.7; color: var(--ink-soft);
+      max-width: 440px; margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--sage);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-size: 15px; font-weight: 600;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 14px rgba(122,158,135,.35);
+    }
+    .btn-primary:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(28,36,32,.2); }
+
+    .btn-ghost {
+      border: 1.5px solid var(--sage-light);
+      color: var(--ink-soft);
+      padding: 13px 28px;
+      border-radius: 100px;
+      font-size: 15px; font-weight: 500;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--sage); color: var(--sage); }
+
+    /* signature: handwritten quote strip */
+    .hero-quote {
+      margin-top: 40px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--accent);
+      background: rgba(176,125,98,.07);
+      border-radius: 0 8px 8px 0;
+    }
+    .hero-quote p {
+      font-family: var(--display);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+    .hero-quote cite { display: block; font-size: 12px; font-style: normal; color: var(--accent); margin-top: 6px; font-weight: 600; letter-spacing: .06em; }
+
+    /* hero image side */
+    .hero-visual { position: relative; }
+    .hero-img-wrap {
+      border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: var(--sage-pale);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-img-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(145deg, var(--sage-light) 0%, var(--sage-pale) 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px;
+    }
+    .hero-img-placeholder svg { opacity: .45; }
+    .hero-img-placeholder span { font-size: 12px; color: var(--sage); font-weight: 500; }
+
+    .hero-badge {
+      position: absolute; bottom: 32px; left: -20px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: 0 8px 32px rgba(28,36,32,.12);
+      display: flex; align-items: center; gap: 12px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .badge-dot { width: 10px; height: 10px; border-radius: 50%; background: #5BB88A; box-shadow: 0 0 0 3px rgba(91,184,138,.25); }
+    .badge-text { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+    .badge-text span { display: block; font-size: 11px; font-weight: 400; color: var(--ink-soft); }
+
+    /* ── STATS BAR ──────────────────────────────────────── */
+    .stats {
+      background: var(--ink);
+      padding: 32px 0;
+    }
+    .stats-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+      display: flex; gap: 0; justify-content: space-around; flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; padding: 8px 20px; }
+    .stat-num {
+      font-family: var(--display);
+      font-size: 36px; color: var(--sage-light);
+      display: block; line-height: 1;
+    }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,.55); margin-top: 4px; }
+
+    /* ── SERVICIOS ──────────────────────────────────────── */
+    .services { padding: 96px 0; background: var(--white); }
+    .section-header { text-align: center; max-width: 560px; margin: 0 auto 56px; }
+    .section-header h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--ink); line-height: 1.15; margin-bottom: 14px;
+    }
+    .section-header p { font-size: 16px; color: var(--ink-soft); line-height: 1.7; }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+    }
+    .service-card {
+      background: var(--sage-pale);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--sage);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(28,36,32,.1); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 48px; height: 48px;
+      background: var(--sage-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .service-card h3 { font-family: var(--display); font-size: 20px; color: var(--ink); margin-bottom: 10px; }
+    .service-card p { font-size: 14px; color: var(--ink-soft); line-height: 1.65; }
+
+    /* ── PROCESO ────────────────────────────────────────── */
+    .process { padding: 96px 0; background: var(--warm); }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 32px;
+      position: relative; margin-top: 56px;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute; top: 28px; left: 10%; right: 10%; height: 1px;
+      background: var(--sage-light); z-index: 0;
+    }
+    .step { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--sage-light);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      font-family: var(--display); font-size: 20px; color: var(--sage);
+      transition: background .2s, border-color .2s;
+    }
+    .step:hover .step-num { background: var(--sage); border-color: var(--sage); color: var(--white); }
+    .step h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+    .step p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+    /* ── SOBRE MÍ ───────────────────────────────────────── */
+    .about { padding: 96px 0; background: var(--white); }
+    .about-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .about-img {
+      border-radius: 24px;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, var(--sage-pale) 0%, var(--sage-light) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-img svg { opacity: .4; }
+    .about-content h2 {
+      font-family: var(--display);
+      font-size: clamp(26px, 3.5vw, 38px);
+      color: var(--ink); line-height: 1.2; margin-bottom: 20px;
+    }
+    .about-content p { font-size: 15px; color: var(--ink-soft); line-height: 1.75; margin-bottom: 16px; }
+    .credentials { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+    .cred-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; color: var(--ink-soft);
+    }
+    .cred-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--sage-pale); border: 1.5px solid var(--sage);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--sage); font-size: 11px; font-weight: 700;
+    }
+
+    /* ── TESTIMONIOS ────────────────────────────────────── */
+    .testimonials { padding: 96px 0; background: var(--sage-pale); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; }
+    .testimonial-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(28,36,32,.06);
+    }
+    .stars { color: #E8A838; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+    .testimonial-card blockquote {
+      font-size: 14px; color: var(--ink-soft); line-height: 1.7;
+      font-style: italic; margin-bottom: 18px;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--sage-light);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--display); font-size: 16px; color: var(--sage);
+    }
+    .author-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .author-role { font-size: 12px; color: var(--ink-soft); }
+
+    /* ── CONTACTO ───────────────────────────────────────── */
+    .contact { padding: 96px 0; background: var(--ink); }
+    .contact-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .contact-info h2 {
+      font-family: var(--display);
+      font-size: clamp(26px, 3.5vw, 38px);
+      color: var(--white); line-height: 1.2; margin-bottom: 16px;
+    }
+    .contact-info p { font-size: 15px; color: rgba(255,255,255,.6); line-height: 1.7; margin-bottom: 32px; }
+    .contact-details { display: flex; flex-direction: column; gap: 14px; }
+    .contact-detail { display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(255,255,255,.7); }
+    .detail-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(122,158,135,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+
+    /* form */
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.6); letter-spacing: .06em; text-transform: uppercase; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-size: 14px; font-family: var(--body);
+      transition: border-color .2s, background .2s;
+      outline: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,.3); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--sage); background: rgba(255,255,255,.1); }
+    .form-group select option { background: var(--ink); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .btn-form {
+      background: var(--sage);
+      color: var(--white);
+      border: none; cursor: pointer;
+      padding: 14px 28px; border-radius: 100px;
+      font-size: 15px; font-weight: 600; font-family: var(--body);
+      transition: background .2s, transform .15s;
+      align-self: flex-start;
+    }
+    .btn-form:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: #111816;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: rgba(255,255,255,.35); }
+    footer span { color: var(--sage); }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-sub { margin: 0 auto 36px; }
+      .hero-actions { justify-content: center; }
+      .hero-quote { text-align: left; }
+      .hero-visual { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-steps::before { display: none; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-img { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-badge { animation: none; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Andrea Solís</a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#testimonios">Testimonios</a></li>
+      <li><a href="#contacto" class="nav-cta">Agendar sesión</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#servicios" onclick="toggleMenu()">Servicios</a></li>
+      <li><a href="#sobre-mi" onclick="toggleMenu()">Sobre mí</a></li>
+      <li><a href="#testimonios" onclick="toggleMenu()">Testimonios</a></li>
+      <li><a href="#contacto" onclick="toggleMenu()">Agendar sesión</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span>Psicóloga Clínica · Lima, Perú</span>
+      </div>
+      <h1>El cambio empieza cuando <em>te escuchan</em> de verdad</h1>
+      <p class="hero-sub">Acompaño a adultos en procesos de ansiedad, burnout y transiciones vitales. Sesiones presenciales en Miraflores y online para toda Latinoamérica.</p>
+      <div class="hero-actions">
+        <a href="#contacto" class="btn-primary">Agendar primera sesión</a>
+        <a href="#servicios" class="btn-ghost">Ver servicios</a>
+      </div>
+      <div class="hero-quote">
+        <p>"No se trata de borrar lo que viviste, sino de aprender a cargarlo distinto."</p>
+        <cite>— Dra. Andrea Solís</cite>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-wrap">
+        <div class="hero-img-placeholder">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="28" r="18" fill="#7A9E87"/>
+            <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="#7A9E87"/>
+          </svg>
+          <span>Foto de la profesional</span>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-dot"></div>
+        <div class="badge-text">
+          Sesiones disponibles
+          <span>Esta semana · Online y presencial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num">8+</span>
+      <div class="stat-label">Años de experiencia</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">400+</span>
+      <div class="stat-label">Pacientes acompañados</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">98%</span>
+      <div class="stat-label">Satisfacción reportada</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">2</span>
+      <div class="stat-label">Modalidades disponibles</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="services" id="servicios">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">¿En qué te ayudo?</span>
+      <h2>Servicios pensados para tu momento</h2>
+      <p>Cada proceso terapéutico es único. Estos son los enfoques con los que trabajo según lo que estás viviendo.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🧠</div>
+        <h3>Terapia individual</h3>
+        <p>Sesiones de 50 minutos en un espacio seguro y confidencial. Trabajamos ansiedad, estrés, autoestima, duelos y bloqueos emocionales con enfoque cognitivo-conductual.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔥</div>
+        <h3>Burnout y trabajo</h3>
+        <p>Para profesionales agotados que sienten que ya no pueden más. Identificamos el origen, recuperamos energía y redefinimos la relación con el trabajo.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🌱</div>
+        <h3>Coaching de vida</h3>
+        <p>Cuando no es una crisis, sino una encrucijada. Clarificamos metas, valores y el siguiente paso concreto hacia la vida que realmente querés construir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="process" id="proceso">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">¿Cómo funciona?</span>
+      <h2>Tu camino desde el primer contacto</h2>
+    </div>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Escribime</h4>
+        <p>Completá el formulario o enviame un mensaje. Te respondo en menos de 24 horas.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Sesión de diagnóstico</h4>
+        <p>Primera sesión gratuita de 30 minutos para entender qué estás viviendo y si podemos trabajar juntos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Plan personalizado</h4>
+        <p>Definimos frecuencia, modalidad y los objetivos del proceso según tu situación.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Comenzamos</h4>
+        <p>Trabajamos a tu ritmo, con revisiones periódicas para ver cómo estás avanzando.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section class="about" id="sobre-mi">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-img">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="42" r="28" fill="#7A9E87"/>
+          <path d="M10 110c0-27.614 22.386-50 50-50s50 22.386 50 50" fill="#7A9E87"/>
+        </svg>
+      </div>
+      <div class="about-content">
+        <span class="tag">Sobre mí</span>
+        <h2>Dra. Andrea Solís Herrera</h2>
+        <p>Soy psicóloga clínica con más de 8 años acompañando a personas en momentos de quiebre y transformación. Creo que pedir ayuda no es debilidad — es el acto más valiente que existe.</p>
+        <p>Mi enfoque integra la terapia cognitivo-conductual con herramientas de mindfulness y aceptación, adaptadas siempre a lo que cada persona necesita.</p>
+        <div class="credentials">
+          <div class="cred-item"><div class="cred-check">✓</div>Lic. Psicología Clínica — UNMSM</div>
+          <div class="cred-item"><div class="cred-check">✓</div>Máster en Terapia Cognitivo-Conductual — España</div>
+          <div class="cred-item"><div class="cred-check">✓</div>Certificación en Mindfulness Based Stress Reduction</div>
+          <div class="cred-item"><div class="cred-check">✓</div>Miembro del Colegio de Psicólogos del Perú</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="testimonials" id="testimonios">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">Lo que dicen</span>
+      <h2>Historias de quienes ya dieron el paso</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Llegué completamente desbordada por el trabajo. En cuatro meses aprendí a poner límites y a escucharme. Algo que nunca creí posible."</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">M</div>
+          <div><div class="author-name">Marcela R.</div><div class="author-role">Ejecutiva de marketing · Lima</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Lo que más valoro es que Andrea no te dice lo que querés escuchar, sino lo que necesitás. El proceso fue duro y honesto, y por eso funcionó."</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">J</div>
+          <div><div class="author-name">Javier T.</div><div class="author-role">Ingeniero · Bogotá (online)</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Era muy escéptica con la psicología. Ahora no concibo mi vida sin estas herramientas. La primera sesión gratuita fue clave para animarme."</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">L</div>
+          <div><div class="author-name">Luciana V.</div><div class="author-role">Diseñadora · Buenos Aires (online)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact" id="contacto">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <span class="tag" style="color: var(--sage-light);">Primer paso</span>
+        <h2>Hablemos. La primera sesión es gratis.</h2>
+        <p>Completá el formulario y te escribo dentro de las próximas 24 horas para coordinar día y horario.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="detail-icon">📍</div>
+            Av. José Pardo 601, Miraflores — Lima, Perú
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">💬</div>
+            También disponible por WhatsApp y videollamada
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">🕐</div>
+            Lunes a viernes · 9:00 – 19:00 hrs
+          </div>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="tu@email.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Motivo de consulta</label>
+          <select required>
+            <option value="" disabled selected>Seleccioná una opción</option>
+            <option>Ansiedad o estrés</option>
+            <option>Burnout laboral</option>
+            <option>Autoestima y confianza</option>
+            <option>Duelo o pérdida</option>
+            <option>Coaching de vida</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>¿Qué te está pasando? (opcional)</label>
+          <textarea placeholder="Contame brevemente lo que estás viviendo..."></textarea>
+        </div>
+        <button type="submit" class="btn-form">Solicitar primera sesión gratuita →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <span>Dra. Andrea Solís</span> · Psicóloga Clínica · Lima, Perú · Todos los derechos reservados</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-form');
+    btn.textContent = '✓ Mensaje enviado — te escribo pronto';
+    btn.style.background = '#5BB88A';
+    btn.disabled = true;
+  }
+
+  // Scroll reveal suave
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .step, .testimonial-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
